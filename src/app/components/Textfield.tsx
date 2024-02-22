@@ -1,12 +1,8 @@
 "use client";
 
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import Select, { StylesConfig } from "react-select";
-
-const options = [
-  { value: "English", label: "English" },
-  { value: "Japanese", label: "Japanese" },
-];
+import { GroupBase, OptionsOrGroups } from "react-select";
 
 const selectThemeProp: StylesConfig = {
   control: (styles) => ({
@@ -32,17 +28,48 @@ const selectThemeProp: StylesConfig = {
 
 interface TextfieldProps extends ComponentPropsWithoutRef<"div"> {
   label: string;
+  textValue: string;
+  onTextChange?: (t: string) => void;
+  is?: "from" | "to" | undefined;
+  onLanguageChange?: (is: "from" | "to", selectedOption: OptionType) => void;
+  value?: OptionType;
+  selectOptions?: OptionsOrGroups<any, GroupBase<unknown>>;
   disabled?: boolean;
   hasSelect?: boolean;
 }
 
-function TextField({ label, disabled = false, hasSelect = true, ...divProps }: TextfieldProps) {
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
-  const [text, setText] = useState("");
+export type OptionType = {
+  label: string;
+  value: string;
+};
+
+function TextField({
+  label,
+  textValue,
+  onTextChange,
+  is,
+  onLanguageChange,
+  value,
+  selectOptions,
+  disabled = false,
+  hasSelect = true,
+  ...divProps
+}: TextfieldProps) {
+  const [selectedLanguage, setSelectedLanguage] = useState<OptionType | undefined>(value);
 
   const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
+    onTextChange && onTextChange(e.target.value);
   };
+
+  const handleLanguageChange = (opt: OptionType) => {
+    setSelectedLanguage(opt);
+  };
+
+  useEffect(() => {
+    if (is && onLanguageChange) {
+      onLanguageChange(is, selectedLanguage!);
+    }
+  }, [selectedLanguage]);
 
   return (
     <div {...divProps}>
@@ -50,17 +77,19 @@ function TextField({ label, disabled = false, hasSelect = true, ...divProps }: T
       <div className="flex items-center w-full h-max">
         {hasSelect && (
           <Select
+            instanceId={"hdsah21h"}
             className="basic-single w-full"
             classNamePrefix="select"
-            options={options}
+            options={selectOptions!}
             styles={selectThemeProp}
-            defaultValue={options[0]}
+            value={value}
+            onChange={(newVal) => handleLanguageChange(newVal as OptionType)}
           />
         )}
       </div>
       <textarea
-        className="w-full focus:w-[calc(100%-6px)] h-full text-black px-4 py-2 focus:border-none resize-none rounded-b-lg"
-        value={text}
+        className="w-full focus:w-[calc(100%-6px)] h-full text-black bg-primary_dark px-4 py-2 focus:border-none resize-none rounded-b-lg"
+        value={textValue}
         onChange={handleText}
         disabled={disabled}
       ></textarea>
