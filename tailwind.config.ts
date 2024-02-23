@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 
-
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,12 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       backgroundColor: {
-        bg_dark: "#080907",
-        primary_dark: "#BDC3B0",
-        secondary_dark: "#4D6149",
+        bg_dark: "#0C1012",
+        primary_dark: "#C4B1C4",
+        secondary_dark: "#654953",
+        accent_dark: "#BB868C",
       },
       colors: {
-        text_white: "#E8EAE3",
+        text_white: "#F5F0F5",
+        text_black: "#0F0A0F",
+        primary_dark: "#C4B1C4",
+        secondary_dark: "#654953",
+        accent_dark: "#BB868C",
+      },
+      gridTemplateColumns: {
+        "page-sm": "32px 1fr 32px",
+        "page-lg": "128px 1fr 128px",
+        "page-xl": "192px 1fr 192px",
+        "page-2xl": "256px 1fr 256px",
+        "icon-middle": "1fr 64px 1fr",
+      },
+      gridTemplateRows: {
+        page: "max-content max-content max-content",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
