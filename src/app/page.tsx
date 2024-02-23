@@ -21,8 +21,8 @@ const langOptions: OptionsOrGroups<any, GroupBase<unknown>> = [
 
 const honorificOptions: OptionsOrGroups<any, GroupBase<unknown>> = [
   { value: "", label: "None" },
-  { value: "僕", label: "Boku" },
-  { value: "私", label: "Watashi" },
+  { value: "僕", label: "Boku / 僕" },
+  { value: "私", label: "Watashi / 私" },
 ];
 
 const translator = new GoogleTranslatorTokenFree({
